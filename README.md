@@ -18,7 +18,7 @@ In order to run this API and see how it works, you need to run the following com
 The API should be available now in the following host: `http://localhost:3000`.
 
 #### Docs
-A swagger editor is available in `http://localhost:3000/docs`.
+A swagger documentation is available in `http://localhost:3000/docs`.
 
 #### Development (optional)
 1. Make sure you have Python 3.x installed on your machine.
