@@ -1,0 +1,71 @@
+version: "3.7"
+
+services:
+  # Matic pgAdmin 4.
+  availability-pgadmin:
+    image: dpage/pgadmin4:6.3
+    container_name: pgadmin.local2
+    environment:
+      PGADMIN_DEFAULT_EMAIL: eduardo110298@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 1234
+    ports:
+      - 8080:80
+    logging:
+      driver: none
+
+  # API Gateway PostgreSQL service.
+  availability-postgres:
+    image: postgres:13-alpine
+    container_name: postgres.local2
+    environment:
+      POSTGRES_DB: availability_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - 5432:5432
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "-d",
+          "postgres",
+          "-U",
+          "postgres"
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # Matic Redis instance.
+  availability-redis:
+    image: redis:6.2.4-alpine
+    container_name: redis.local2
+    ports:
+      - ${REDIS_PORT}:6379
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 30s
+      timeout: 5s
+      retries: 50
+
+  # availability-api:
+  #   build: ./
+  #   container_name: availability-api
+  #   ports:
+  #     - 3000:8000
+  #   depends_on:
+  #     - availability-postgres
+  #     - availability-redis
+
+volumes:
+  pgdata:
+    driver: local
+  polldata:
+    driver: local
+
+networks:
+  default:
+    name: availability-api-network
