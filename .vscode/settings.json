@@ -1,0 +1,29 @@
+{
+    "workbench.colorCustomizations": {
+        "editorRuler.foreground": "#04e9e9d2",
+        "editor.lineHighlightBackground": "#d733e63d"
+    },
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.rulers": [
+        80
+    ],
+    "[python]": {
+        "editor.renderLineHighlight": "all",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        },
+    },
+    "files.autoSave": "onFocusChange",
+    "python.formatting.provider": "black",
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "autoDocstring.docstringFormat": "sphinx",
+    "files.exclude": {
+        "**/__pycache__/": true,
+        "**/.git": true,
+        ".pytest_cache": true,
+        "venv": false
+    },
+    "python.analysis.typeCheckingMode": "off",
+}
