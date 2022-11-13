@@ -1,4 +1,4 @@
-# Availability API
+# Availability API (availapi)
 
 ## Introduction
 Working internationally comes with its own set of challenges, among them the challenge of figuring out when people are available.
@@ -27,5 +27,5 @@ A swagger documentation is available in `http://localhost:3000/docs`.
 4. Create your `.env` file (you can use the default values in the `.env.example`).
 5. Make sure your PostgreSQL and Redis services are running and that you placed the correct values on the `.env` including the database you will use.
 6. Run the migrations `flask db upgrade head`.
-7. Start the API in development mode `flask run`.
-8. To execute the **tests** you can use the following command: `pytest`.
+7. Start the API in development mode `flask --debug run`.
+8. To execute the **tests** you can use the following command: `python3 -m pytest`.

@@ -1,10 +1,7 @@
-from dotenv import load_dotenv
 from flask import Flask, abort, jsonify, request
 
-from src.exceptions import AvailabilityAPIException
-from src.holidays import is_holiday
-
-load_dotenv()
+from .exceptions import AvailabilityAPIException
+from .holidays import is_holiday
 
 app = Flask(__name__)
 
