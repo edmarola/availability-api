@@ -192,3 +192,39 @@ def test_sc6_field_values_format_error(client):
             }
         }
     }, "The output did not match."
+
+
+def test_sc7_three_items_without_slot(client):
+    """
+    Scenario 7: Three items without slot available
+    Given three ranges not intercepted, an meaningful response is returned.
+    """
+    # Arrange
+    request_body = [
+        {
+            "from": "2022-05-02T09:00:00.0-06:00",
+            "to": "2022-05-02T17:00:00.0-06:00",
+            "cc": "SG",
+        },
+        {
+            "from": "2022-05-02T09:00:00.0+01:00",
+            "to": "2022-05-02T17:00:00.0+01:00",
+            "cc": "NG",
+        },
+        {
+            "from": "2022-05-02T09:00:00.0+05:30",
+            "to": "2022-05-02T17:00:00.0+05:30",
+            "cc": "IN",
+        },
+    ]
+
+    # Act
+    response = client.post(ENDPOINT_URL, json=request_body)
+
+    # Assert
+    assert response.status_code == 400, "The status must be 400."
+    assert response.is_json, "The response format must be JSON."
+    assert response.json == {
+        "errors": "There were not slots available "
+        "where all this ranges match."
+    }, "The output did not match."
