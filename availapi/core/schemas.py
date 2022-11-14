@@ -15,22 +15,27 @@ class RangeSchema(Schema):
         required=True,
         data_key="from",
         metadata={
-            "description": "`From` datetime for an individual availability."
+            "description": "`From` datetime for an individual availability. "
+            "Must be on RFC 3339 format and include the timezone offset.",
+            "example": "2022-11-02T09:00:00.0+08:00",
         },
     )
     to_datetime = fields.AwareDateTime(
         required=True,
         data_key="to",
         metadata={
-            "description": "`To` datetime for an individual availability."
+            "description": "`To` datetime for an individual availability. "
+            "Must be on RFC 3339 format and include the timezone offset.",
+            "example": "2022-11-02T17:00:00.0+08:00",
         },
     )
     cc = fields.Str(
         required=True,
         validate=validate.OneOf(supported_countries.keys()),
         metadata={
-            "description": "Country code of an individual. "
-            "Must be on iso-3166 format."
+            "description": "Country code for an item. "
+            "Must be on iso-3166 format.",
+            "example": "SG",
         },
     )
 
@@ -52,13 +57,19 @@ class SlotSchema(Schema):
         required=True,
         data_key="from",
         format="%Y-%m-%dT%H:%M:%S.%f",
-        metadata={"description": "`From` datetime for a given meeting slot."},
+        metadata={
+            "description": "`From` datetime for a given meeting slot.",
+            "example": "2022-11-02T01:00:00.0Z",
+        },
     )
     to_datetime = fields.DateTime(
         required=True,
         data_key="to",
         format="%Y-%m-%dT%H:%M:%S.%f",
-        metadata={"description": "`To` datetime for a given meeting slot."},
+        metadata={
+            "description": "`To` datetime for a given meeting slot.",
+            "example": "2022-11-02T09:00:00.0Z",
+        },
     )
 
     @post_dump

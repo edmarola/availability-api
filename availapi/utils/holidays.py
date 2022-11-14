@@ -4,8 +4,8 @@ from datetime import date, timedelta
 
 import requests
 
-from .cache import r
-from .exceptions import AvailabilityAPIException
+from ..core.cache import r
+from ..core.exceptions import AvailabilityAPIException
 
 CALENDARIFIC_API_KEY = os.environ["CALENDARIFIC_API_KEY"]
 
