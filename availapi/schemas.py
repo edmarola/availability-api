@@ -2,6 +2,7 @@ from marshmallow import (
     Schema,
     ValidationError,
     fields,
+    post_dump,
     validate,
     validates_schema,
 )
@@ -47,17 +48,26 @@ class RangeSchema(Schema):
 
 
 class SlotSchema(Schema):
-    from_datetime = fields.AwareDateTime(
+    from_datetime = fields.DateTime(
         required=True,
         data_key="from",
-        # format="%Y-%m-%dT%H:%M:%S.%fZ",
-        format="%Y-%m-%dT%H:%M:%S.0Z",
+        format="%Y-%m-%dT%H:%M:%S.%f",
         metadata={"description": "`From` datetime for a given meeting slot."},
     )
-    to_datetime = fields.AwareDateTime(
+    to_datetime = fields.DateTime(
         required=True,
         data_key="to",
-        # format="%Y-%m-%dT%H:%M:%S.%fZ",
-        format="%Y-%m-%dT%H:%M:%S.0Z",
+        format="%Y-%m-%dT%H:%M:%S.%f",
         metadata={"description": "`To` datetime for a given meeting slot."},
     )
+
+    @post_dump
+    def format_microseconds(self, data, **kwargs):
+        """
+        Format correctly the microseconds to keep it with only one digit
+        and also put the Z (we are sure at this point that they are in UTC).
+
+        """
+        data["from"] = data["from"][:-5] + "Z"
+        data["to"] = data["to"][:-5] + "Z"
+        return data
