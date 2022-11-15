@@ -257,7 +257,7 @@ def test_sc8_usa_holiday(client):
     assert response.is_json, "The response format must be JSON."
     assert response.json == {
         "errors": "Unable to find an available slot. "
-        "The date 2022-12-23 is holiday on US."
+        "The date 2022-12-23 is holiday in US."
     }, "The output did not match."
 
 

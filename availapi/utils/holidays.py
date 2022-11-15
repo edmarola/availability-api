@@ -3,10 +3,9 @@ import os
 from datetime import date, timedelta
 
 import requests
-from flask import current_app
+from flask import abort, current_app
 
 from ..core.cache import r
-from ..core.exceptions import AvailabilityAPIException
 
 CALENDARIFIC_API_KEY = os.environ["CALENDARIFIC_API_KEY"]
 
@@ -30,7 +29,7 @@ def _make_holidays_request(params: dict) -> dict:
     if response.status_code != 200:
         if "error" not in data:
             data["error"] = "Unknown error with holidays API."
-        raise AvailabilityAPIException(data["error"])
+        abort(500, data["error"])
     return data["response"]["holidays"]
 
 
@@ -65,20 +64,25 @@ def _get_holidays(country: str, year: int) -> list:
     return holidays
 
 
-def is_holiday(date_iso: str, country: str) -> bool:
+def is_holiday(d: date, country: str) -> bool:
     """Given a date and country, this function determines
     whether the date provided is holiday or not.
 
-    :param date: The date to check.
-    :type date: str
+    :param d: The date to check.
+    :type d: datetime.date
     :param country: The corresponding country.
     :type country: str
     :return: Whether it is holiday or not.
     :rtype: bool
     """
-    if current_app.testing and country == "US" and date_iso == "2022-12-23":
-        return True
+    if current_app.testing:
+        # Prepared value for a test scenarios.
+        if country == "US" and d == date(2022, 12, 23):
+            return True
 
-    holidays = _get_holidays(country, date.fromisoformat(date_iso).year)
+        if country in ["SG", "NG", "IN"]:
+            return False
+
+    holidays = _get_holidays(country, d.year)
     holidays_iso_dates = [h["date"]["iso"] for h in holidays]
-    return date_iso in holidays_iso_dates
+    return d.isoformat() in holidays_iso_dates
