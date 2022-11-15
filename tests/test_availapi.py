@@ -228,3 +228,91 @@ def test_sc7_three_items_without_slot(client):
         "errors": "There were not slots available "
         "where all this ranges match."
     }, "The output did not match."
+
+
+def test_sc8_usa_holiday(client):
+    """
+    Scenario 8: Range including a holiday.
+    Given two ranges with one USA holiday, a meaningful response is returned.
+    """
+    # Arrange
+    request_body = [
+        {
+            "from": "2022-12-23T09:00:00.0-06:00",
+            "to": "2022-12-23T17:00:00.0-06:00",
+            "cc": "MX",
+        },
+        {
+            "from": "2022-12-23T09:00:00.0-05:00",
+            "to": "2022-12-23T17:00:00.0-05:00",
+            "cc": "US",
+        },
+    ]
+
+    # Act
+    response = client.post(ENDPOINT_URL, json=request_body)
+
+    # Assert
+    assert response.status_code == 400, "The status must be 400."
+    assert response.is_json, "The response format must be JSON."
+    assert response.json == {
+        "errors": "Unable to find an available slot. "
+        "The date 2022-12-23 is holiday on US."
+    }, "The output did not match."
+
+
+def test_sc9_single_range(client):
+    """
+    Scenario 9: Single range scenario
+    Given a single range, return the availability corresponding to that range.
+    """
+
+    # Arrange
+    request_body = [
+        {
+            "from": "2022-05-02T09:00:00.0+08:00",
+            "to": "2022-05-02T17:00:00.0+08:00",
+            "cc": "SG",
+        }
+    ]
+
+    # Act
+    response = client.post(ENDPOINT_URL, json=request_body)
+
+    # Assert
+    assert response.status_code == 200, "The status must be 200."
+    assert response.is_json, "The response format must be JSON."
+    assert response.json == [
+        {"from": "2022-05-02T01:00:00.0Z", "to": "2022-05-02T09:00:00.0Z"}
+    ], "The output did not match."
+
+
+def test_sc11_usa_weekend(client):
+    """
+    Scenario 11: Range including a weekend.
+    Given two ranges with one weekend, a meaningful response is returned.
+    """
+    # Arrange
+    request_body = [
+        {
+            "from": "2022-12-24T09:00:00.0-06:00",
+            "to": "2022-12-24T17:00:00.0-06:00",
+            "cc": "MX",
+        },
+        {
+            "from": "2022-12-24T09:00:00.0-05:00",
+            "to": "2022-12-24T17:00:00.0-05:00",
+            "cc": "US",
+        },
+    ]
+
+    # Act
+    response = client.post(ENDPOINT_URL, json=request_body)
+
+    # Assert
+    assert response.status_code == 400, "The status must be 400."
+    assert response.is_json, "The response format must be JSON."
+    assert response.json == {
+        "errors": "Unable to find an available slot. "
+        "The date 2022-12-24 correspond to a weekend."
+    }, "The output did not match."
