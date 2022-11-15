@@ -34,14 +34,14 @@ The individual array items needs to correspond to a single day, so basically if 
 - **Language:** Python.
 - **Framework:** Flask.
 - **Holidays validation:** Calendarific API + Redis for cache the holidays for a given country. I decided to use an API since it is better to outsource the maintenance of the holidays for all countries to a third party api than have to take care by my own in my 2-days operations.
-- **Country codes validation:** Dictionaries with all the countries supported, this is hardcoded the low probability that can be changed. This was taken directly from the calendarific API, maybe i could cache it also on redis however i felt that it was less probable to change so i hardcoded it.
+- **Country codes validation:** Dictionary with all the countries supported, this is hardcoded due the low probability that can be changed. This was taken directly from the calendarific API, maybe i could cache it also on redis however i felt that it was less probable to change so i hardcoded it.
 - **Documentation:** Swagger UI blueprint.
 - **Timezone library:** `pytz` library due the simplicity and readibility that it adds when manipulating timezones common operations.
 
 ## Tests
 
 In order to run the tests, run the following command:
-`docker compose up --build availapi-tests`
+`docker-compose up --build availapi-tests` or `docker compose up --build availapi-tests` (if you are using the `compose` plugin).
 
 ## Development (optional)
 1. Make sure you have Python 3.x installed on your machine.

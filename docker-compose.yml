@@ -6,7 +6,7 @@ services:
     image: redis:6.2.4-alpine
     container_name: redis.local2
     ports:
-      - ${REDIS_PORT}:6379
+      - 6379:6379
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 30s
