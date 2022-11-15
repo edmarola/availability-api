@@ -86,23 +86,6 @@ def check_availability_endpoint(data):
     return make_response(slot_json, 200, {"Content-Type": "application/json"})
 
 
-@app.route("/is_holiday")
-def is_holiday_service():
-    cc = request.args["cc"]
-    date = request.args["date"]
-
-    try:
-        if is_holiday(date, cc):
-            response = jsonify("Holiday")
-        else:
-            response = jsonify("Not holiday")
-
-    except AvailabilityAPIException as e:
-        abort(500, str(e))
-
-    return response
-
-
 # Documentation configuration
 with app.test_request_context():
     spec.path(view=check_availability_endpoint)
