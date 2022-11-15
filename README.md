@@ -13,7 +13,7 @@ Availability API is a REST API that can be used to calculate the best meeting sl
 
 #### How to start the API?
 In order to run this API and see how it works, you need to run the following command:
-`docker-compose up -d` or `docker compose up -d` (if you are using the `compose` plugin).
+`docker-compose up --build` or `docker compose up --build` (if you are using the `compose` plugin).
 
 The API should be available now in the following host: `http://localhost:5000`.
 #### Docs
@@ -48,8 +48,7 @@ In order to run the tests, run the following command:
 2. Create and activate a [virtual env](https://docs.python.org/3/library/venv.html#creating-virtual-environments).
 3. Install the requirements on `requirements.txt` (`pip3 install -r requirements.txt`).
 4. Create your `.env` file (you can use the default values in the `.env.example`).
-5. Make sure your PostgreSQL and Redis services are running and that you placed the correct values on the `.env` including the database you will use.
-6. Run the migrations `flask db upgrade head`.
-7. Start the API in development mode `flask --debug run`.
-8. To execute the **tests** you can use the following command: `python3 -m pytest`.
+5. Make sure your Redis service is running and that you placed the correct values on the `.env` including the database you will use.
+6. Start the API in development mode `flask --debug run`.
+7. To execute the **tests** you can use the following command: `python3 -m pytest`.
 
