@@ -111,7 +111,8 @@ def check_availability_endpoint(data):
     if from_dt_candidate >= to_dt_candidate:
         # Then there is not a slot when all ranges are intercepted.
         abort(
-            400, "There were not slots available where all this ranges match."
+            400,
+            "There were no slots available where all these ranges matched.",
         )
     else:
         slot_json = SlotSchema().dump(

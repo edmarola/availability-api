@@ -225,8 +225,8 @@ def test_sc7_three_items_without_slot(client):
     assert response.status_code == 400, "The status must be 400."
     assert response.is_json, "The response format must be JSON."
     assert response.json == {
-        "errors": "There were not slots available "
-        "where all this ranges match."
+        "errors": "There were no slots available "
+        "where all these ranges matched."
     }, "The output did not match."
 
 
