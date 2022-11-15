@@ -35,6 +35,73 @@ spec.components.response(
     },
 )
 
+spec.components.schema(
+    "UnprocessableEntityA",
+    {
+        "type": "object",
+        "properties": {
+            "error": {
+                "type": "object",
+                "properties": {
+                    "json": {
+                        "type": "object",
+                        "properties": {
+                            "<n>": {
+                                "type": "object",
+                                "properties": {
+                                    "<field_name>": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "Missing data "
+                                            "for required field.",
+                                        },
+                                    }
+                                },
+                            }
+                        },
+                    }
+                },
+            }
+        },
+        "example": {
+            "errors": {
+                "json": {
+                    "0": {"cc": ["Missing data for required field."]},
+                    "2": {"to": ["Missing data for required field."]},
+                }
+            }
+        },
+    },
+)
+
+spec.components.schema(
+    "UnprocessableEntityB",
+    {
+        "type": "object",
+        "properties": {
+            "error": {
+                "type": "object",
+                "properties": {
+                    "json": {
+                        "type": "object",
+                        "properties": {
+                            "_schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": "Invalid input type.",
+                                },
+                            }
+                        },
+                    }
+                },
+            }
+        },
+        "example": {"errors": {"json": {"_schema": ["Invalid input type."]}}},
+    },
+)
+
 spec.components.response(
     "UnprocessableEntity",
     {
@@ -42,31 +109,12 @@ spec.components.response(
         "content": {
             "application/json": {
                 "schema": {
-                    "type": "object",
-                    "properties": {
-                        "errors": {
-                            "type": "object",
-                            "example": [
-                                {
-                                    "json": {
-                                        "0": {
-                                            "cc": [
-                                                "Missing data for required field."
-                                            ]
-                                        },
-                                        "2": {
-                                            "to": [
-                                                "Missing data for required field."
-                                            ]
-                                        },
-                                    }
-                                },
-                                {"json": {"_schema": ["Invalid input type."]}},
-                            ],
-                        },
-                    },
+                    "oneOf": [
+                        {"$ref": "#/components/schemas/UnprocessableEntityA"},
+                        {"$ref": "#/components/schemas/UnprocessableEntityB"},
+                    ]
                 },
-            }
+            },
         },
     },
 )
