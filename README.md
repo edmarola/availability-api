@@ -30,6 +30,9 @@ Prior the calculus, we check whether the input data correspond to a weekend day 
 ### Limitations
 The individual array items needs to correspond to a single day, so basically if you need to check the availability of two days, you would need to make two API calls: The first with the range for one day and the second with the range of the other day.
 
+### DST
+DST is supported since our input already will take an datetime that include a timezone offset.
+
 ### Technical decisions
 - **Language:** Python.
 - **Framework:** Flask.
