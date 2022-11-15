@@ -51,6 +51,11 @@ class RangeSchema(Schema):
                 "date in regards to the `to` field."
             )
 
+        if data["from_datetime"].date() != data["to_datetime"].date():
+            raise ValidationError(
+                "The `from` and `to` dates must be correspond to the same day."
+            )
+
 
 class SlotSchema(Schema):
     from_datetime = fields.DateTime(

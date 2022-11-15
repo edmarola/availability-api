@@ -287,9 +287,9 @@ def test_sc9_single_range(client):
     ], "The output did not match."
 
 
-def test_sc11_usa_weekend(client):
+def test_sc10_weekend(client):
     """
-    Scenario 11: Range including a weekend.
+    Scenario 10: Range including a weekend.
     Given two ranges with one weekend, a meaningful response is returned.
     """
     # Arrange
@@ -315,4 +315,38 @@ def test_sc11_usa_weekend(client):
     assert response.json == {
         "errors": "Unable to find an available slot. "
         "The date 2022-12-24 correspond to a weekend."
+    }, "The output did not match."
+
+
+def test_sc11_from_to_different_dates(client):
+    """
+    Scenario 11: From/To different dates
+    Given a from/to with different dates, an error must be returned.
+    """
+    # Arrange
+    request_body = [
+        {
+            "from": "2022-05-02T09:00:00.0+08:00",
+            "to": "2022-05-03T17:00:00.0+08:00",
+            "cc": "SG",
+        },
+    ]
+
+    # Act
+    response = client.post(ENDPOINT_URL, json=request_body)
+
+    # Assert
+    assert response.status_code == 422, "The status must be 422."
+    assert response.is_json, "The response format must be JSON."
+    assert response.json == {
+        "errors": {
+            "json": {
+                "0": {
+                    "_schema": [
+                        "The `from` and `to` dates must "
+                        "be correspond to the same day."
+                    ]
+                }
+            }
+        }
     }, "The output did not match."
